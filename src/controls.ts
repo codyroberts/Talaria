@@ -2,8 +2,9 @@
 
 import * as Phaser from 'phaser'
 
-function controls (scene: Phaser.Scene, player:Phaser.GameObjects.Sprite & { body: Phaser.Physics.Arcade.Body }) {
+function controls (scene: Phaser.Scene, player:Phaser.Physics.Arcade.Sprite) {
     const controls = scene.input.keyboard.createCursorKeys();
+    const body = player.body as Phaser.Physics.Arcade.Body
 
       // TODO: Cut controls out into function. CLean up function with fewer if statements.
       if(!controls.up.isDown && !controls.down.isDown && !controls.left.isDown && !controls.right.isDown){
@@ -11,19 +12,19 @@ function controls (scene: Phaser.Scene, player:Phaser.GameObjects.Sprite & { bod
       }
 
       if(controls.up.isDown){
-        player.body.setVelocityY(-50);
+        body.setVelocityY(-100);
         player.anims.play('walk_up', true);
       }
       else if(controls.down.isDown){
-        player.body.setVelocityY(50);
+        body.setVelocityY(100);
         player.anims.play('walk_down', true);
       }
       else {
-        player.body.setVelocityY(0);
+        body.setVelocityY(0);
       }
 
       if(controls.left.isDown){
-        player.body.setVelocityX(-50);
+        body.setVelocityX(-100);
         if(controls.down.isDown) {
           player.anims.play('walk_down', true);
         }
@@ -36,7 +37,7 @@ function controls (scene: Phaser.Scene, player:Phaser.GameObjects.Sprite & { bod
         }
       }
       else if(controls.right.isDown){
-        player.body.setVelocityX(50);
+        body.setVelocityX(100);
         if(controls.down.isDown) {
           player.anims.play('walk_down', true);
         }
@@ -49,7 +50,7 @@ function controls (scene: Phaser.Scene, player:Phaser.GameObjects.Sprite & { bod
         }
       }
       else {
-        player.body.setVelocityX(0);
+        body.setVelocityX(0);
       }
 }
 
