@@ -19,20 +19,34 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
     public preload() {
       this.load.spritesheet('hero', 'assets/chara_hero.png', { frameWidth: 48, frameHeight: 48 });
-      this.load.image('dungeon', 'assets/tilesets/dungeon.png');
+      this.load.image('dungeontiles', 'assets/tilesets/dungeon-image.png');
+      this.load.tilemapTiledJSON('dungeonmap', 'assets/tilemaps/dungeon.json')
     }
    
     public create() {
+      const map = this.make.tilemap({ key: "dungeonmap" });
+      const tileset = map.addTilesetImage('dungeon', 'dungeontiles')
+
+      const belowLayer = map.createStaticLayer("below player", tileset, 0, 0);
+      const worldLayer = map.createStaticLayer("world", tileset, 0, 0);
+      const aboveLayer = map.createStaticLayer("above player", tileset, 0, 0);
+
+      worldLayer.setCollisionByProperty({ collides: true });
       this.player = this.physics.add.sprite(48, 48, 'hero', ) as any;
       this.player.body = this.player.body as Phaser.Physics.Arcade.Body;
-      this.cameras.main.setBounds(0, 0, window.innerWidth, window.innerHeight)
-      this.physics.world.setBounds(0, 0, window.innerWidth, window.innerHeight)
+
+
+      this.physics.add.collider(this.player, worldLayer);
+
+      this.cameras.main.setBounds(0, 0, 240, 240)
+      this.physics.world.setBounds(0, 0, 240, 240)
       this.player.body.setCollideWorldBounds(true);
 
       
       this.cameras.main.setZoom(2);
+      this.cameras.main.zoomTo(4);
       this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
-      this.player.setScale(2);
+      this.player.setScale(1);
 
 
       // Imports animations from animations.ts
@@ -58,6 +72,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     physics: {
         default: 'arcade',
         arcade: {
+            gravity: { y: 0 },
             debug: false,
         },
     },
@@ -68,7 +83,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     scene: GameScene,
 
     parent: 'game',
-    backgroundColor: '#000000',
+    // backgroundColor: '#000000',
 }
 
 export const game = new Phaser.Game(gameConfig);
