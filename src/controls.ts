@@ -12,11 +12,11 @@ function controls (scene: Phaser.Scene, player:Phaser.Physics.Arcade.Sprite) {
       }
 
       if(controls.up.isDown){
-        body.setVelocityY(-100);
+        body.setVelocityY(-45);
         player.anims.play('walk_up', true);
       }
       else if(controls.down.isDown){
-        body.setVelocityY(100);
+        body.setVelocityY(45);
         player.anims.play('walk_down', true);
       }
       else {
@@ -24,7 +24,7 @@ function controls (scene: Phaser.Scene, player:Phaser.Physics.Arcade.Sprite) {
       }
 
       if(controls.left.isDown){
-        body.setVelocityX(-100);
+        body.setVelocityX(-45);
         if(controls.down.isDown) {
           player.anims.play('walk_down', true);
         }
@@ -37,7 +37,7 @@ function controls (scene: Phaser.Scene, player:Phaser.Physics.Arcade.Sprite) {
         }
       }
       else if(controls.right.isDown){
-        body.setVelocityX(100);
+        body.setVelocityX(45);
         if(controls.down.isDown) {
           player.anims.play('walk_down', true);
         }
